@@ -1,5 +1,5 @@
 {
-  "name": "winston-cloudwatch",
+  "name": "@liberate-org/winston-cloudwatch",
   "version": "6.3.0-1",
   "description": "Send logs to Amazon Cloudwatch using Winston.",
   "keywords": [
