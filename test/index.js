@@ -21,7 +21,6 @@ var stubbedWinston = {
       this.lastLoggedEvents = logEvents.splice(0, 20);
       cb();
     }),
-    clearSequenceToken: sinon.stub()
   };
   var clock = sinon.useFakeTimers();
 
@@ -127,7 +126,7 @@ var stubbedWinston = {
 
       before(function(done) {
         transport = new WinstonCloudWatch(options);
-        transport.log({ level: 'level', message: 'message', something: 'else' }, 
+        transport.log({ level: 'level', message: 'message', something: 'else' },
           function() {
             clock.tick(2000);
             done();
@@ -165,7 +164,7 @@ var stubbedWinston = {
 
         var options = {
           messageFormatter: function(log) {
-            return log.level + ' ' + log.message + ' ' + log.something; 
+            return log.level + ' ' + log.message + ' ' + log.something;
           }
         };
 
@@ -272,20 +271,20 @@ var stubbedWinston = {
         transport.add({ message: 'message' + index });
       }
 
-      transport.kthxbye(function() {        
+      transport.kthxbye(function() {
         transport.logEvents.length.should.equal(0);
         done();
       });
 
       clock.tick(1);
     });
-    
-    it('should exit if logs are not cleared by the timeout period', function(done) {            
+
+    it('should exit if logs are not cleared by the timeout period', function(done) {
       transport.add({ message: 'message' });
       transport.submit.callsFake(function(cb){
         clock.tick(500);
         cb(); // callback is called but logEvents is not cleared
-      }); 
+      });
 
       transport.kthxbye(function(error) {
         error.should.be.Error();

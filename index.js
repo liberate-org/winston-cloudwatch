@@ -60,7 +60,7 @@ util.inherits(WinstonCloudWatch, winston.Transport);
 WinstonCloudWatch.prototype.log = function (info, callback) {
   debug('log (called by winston)', info);
 
-  if (!isEmpty(info.message) || isError(info.message)) { 
+  if (!isEmpty(info.message) || isError(info.message)) {
     this.add(info);
   }
 
@@ -125,7 +125,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
   );
 };
 
-WinstonCloudWatch.prototype.kthxbye = function(callback) {  
+WinstonCloudWatch.prototype.kthxbye = function(callback) {
   debug('clearing interval');
   clearInterval(this.intervalId);
   this.intervalId = null;
@@ -135,11 +135,6 @@ WinstonCloudWatch.prototype.kthxbye = function(callback) {
 
   this.submit((function(error) {
     debug('submit done', error);
-    var groupName = typeof this.logGroupName === 'function' ?
-        this.logGroupName() : this.logGroupName;
-    var streamName = typeof this.logStreamName === 'function' ?
-        this.logStreamName() : this.logStreamName;
-    cloudWatchIntegration.clearSequenceToken(groupName, streamName);
     if (error) return callback(error);
     if (isEmpty(this.logEvents)) return callback();
     if (Date.now() > this.flushTimeout) return callback(new Error('Timeout reached while waiting for logs to submit'));
