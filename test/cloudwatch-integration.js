@@ -13,6 +13,9 @@ describe('cloudwatch-integration', function() {
     beforeEach(function() {
       aws.putLogEvents = sinon.stub().yields();
       aws.putRetentionPolicy = sinon.stub().returns();
+      lib.ensureLogGroupAndStreamPresent = sinon.stub().yields(null, true);
+      lib._logGroups = new Set();
+      lib._logStreams = new Map();
       sinon.stub(console, 'error');
     });
 
@@ -152,6 +155,8 @@ describe('cloudwatch-integration', function() {
         }
       };
       lib.putRetentionPolicy = sinon.stub();
+      lib._logGroups = new Set();
+      lib._logStreams = new Map();
     });
 
     it('makes sure that a group is present', function(done) {
@@ -204,6 +209,8 @@ describe('cloudwatch-integration', function() {
     var aws;
 
     beforeEach(function() {
+      lib._logGroups = new Set();
+      lib._logStreams = new Map();
       aws = {
         describeLogStreams: function(params, cb) {
           cb(null, {
