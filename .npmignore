@@ -1,0 +1,6 @@
+tests/*
+.jest/*
+coverage/*
+.prettierrc.js
+.github
+jest.config.js
