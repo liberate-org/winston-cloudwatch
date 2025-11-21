@@ -13,6 +13,7 @@ describe('cloudwatch-integration', function() {
     beforeEach(function() {
       aws.putLogEvents = sinon.stub().yields();
       aws.putRetentionPolicy = sinon.stub().returns();
+      lib.ensureLogGroupAndStreamPresent = sinon.stub().yields(null, true);
       sinon.stub(console, 'error');
     });
 
